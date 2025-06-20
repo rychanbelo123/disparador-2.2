@@ -96,17 +96,14 @@ const SendText = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-10">
+      <h1 className="text-3xl font-bold mb-8 select-none drop-shadow-lg">Enviar Mensagem de Texto</h1>
       <form
         onSubmit={handleSend}
-        className="w-full max-w-xl bg-white/5 backdrop-blur-md rounded-2xl p-10 shadow-lg border border-white/20 flex flex-col gap-6"
+        className="max-w-lg bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 mx-auto flex flex-col gap-6"
       >
-        <h1 className="text-4xl font-extrabold select-none drop-shadow-lg text-center">
-          Enviar Mensagem de Texto
-        </h1>
-
         <div>
-          <Label htmlFor="numbers" className="text-green-300 font-semibold mb-1 block">
+          <Label htmlFor="numbers" className="text-[#CBD5E1]">
             Números (separados por vírgula)
           </Label>
           <Input
@@ -115,14 +112,14 @@ const SendText = () => {
             placeholder="Ex: 5511999999999, 5511988888888"
             value={numbers}
             onChange={(e) => setNumbers(e.target.value)}
-            className="bg-black/70 text-green-200 placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+            className="bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md border border-[#172554]"
             required
             spellCheck={false}
           />
         </div>
 
         <div>
-          <Label htmlFor="text" className="text-green-300 font-semibold mb-1 block">
+          <Label htmlFor="text" className="text-[#CBD5E1]">
             Texto da Mensagem
           </Label>
           <textarea
@@ -130,14 +127,14 @@ const SendText = () => {
             placeholder="Digite sua mensagem aqui..."
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="w-full min-h-[120px] resize-y bg-black/70 text-green-200 placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-md p-3 border border-green-600"
+            className="w-full min-h-[120px] resize-y bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md p-3 border border-[#172554]"
             required
             spellCheck={true}
           />
         </div>
 
         <div>
-          <Label htmlFor="delay" className="text-green-300 font-semibold mb-1 block">
+          <Label htmlFor="delay" className="text-[#CBD5E1]">
             Delay entre mensagens (segundos)
           </Label>
           <Input
@@ -148,14 +145,14 @@ const SendText = () => {
             placeholder="0"
             value={delay}
             onChange={(e) => setDelay(e.target.value)}
-            className="bg-black/70 text-green-200 placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+            className="bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md border border-[#172554]"
             required
           />
         </div>
 
         <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 shadow-lg font-semibold text-white py-3 rounded-xl transition-transform active:scale-95 flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-[#172554] via-[#0F172A] to-[#172554] hover:from-[#0F172A] hover:via-[#172554] hover:to-[#0F172A] shadow-lg rounded-full font-semibold text-[#CBD5E1]"
           disabled={loading}
         >
           {loading ? "Enviando..." : "Enviar"}
