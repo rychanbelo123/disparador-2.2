@@ -216,20 +216,12 @@ const Login = () => {
               Entrar
             </Button>
 
-            <button
-              type="button"
-              className="w-full mt-2 py-2 text-gray-300 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors text-sm font-medium shadow-inner"
-              onClick={() => alert("Login usando magic link ainda não implementado")}
-            >
-              Entrar usando magic link
-            </button>
-
             <Button
               type="button"
               className="w-full mt-4 rounded-full bg-gray-800 hover:bg-gray-700 text-sm font-medium shadow-inner"
-              disabled
+              onClick={() => setIsRegistering(true)}
             >
-              Single sign-on (SSO)
+              Criar Conta
             </Button>
 
             <p className="mt-6 text-xs text-gray-500 select-none text-center px-4">
