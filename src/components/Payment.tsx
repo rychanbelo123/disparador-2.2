@@ -18,6 +18,7 @@ const CARD_ELEMENT_OPTIONS = {
       padding: "12px 14px",
       height: "48px",
       boxSizing: "border-box",
+      width: "100%",
     },
     invalid: {
       color: "#e53e3e",
@@ -78,13 +79,13 @@ const CheckoutForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 bg-white rounded-md shadow-md">
-      <div className="border rounded-md p-2">
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md w-full mx-auto p-4 bg-white rounded-md shadow-md">
+      <div className="border rounded-md p-2 w-full">
         <CardElement options={CARD_ELEMENT_OPTIONS} />
       </div>
       {error && <p className="text-red-600">{error}</p>}
       {success && <p className="text-green-600">Pagamento realizado com sucesso!</p>}
-      <Button type="submit" disabled={!stripe || loading}>
+      <Button type="submit" disabled={!stripe || loading} className="w-full">
         {loading ? "Processando..." : "Pagar R$10,00"}
       </Button>
     </form>
