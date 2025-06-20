@@ -13,6 +13,7 @@ import SendLocation from "./pages/dashboard/SendLocation";
 import SendList from "./pages/dashboard/SendList";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import DashboardLayout from "@/components/DashboardLayout";
 
 const queryClient = new QueryClient();
 
@@ -26,50 +27,19 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route
-              path="/dashboard"
+              path="/dashboard/*"
               element={
                 <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/send-text"
-              element={
-                <ProtectedRoute>
-                  <SendText />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/send-media-url"
-              element={
-                <ProtectedRoute>
-                  <SendMediaUrl />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/send-media-file"
-              element={
-                <ProtectedRoute>
-                  <SendMediaFile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/send-location"
-              element={
-                <ProtectedRoute>
-                  <SendLocation />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/dashboard/send-list"
-              element={
-                <ProtectedRoute>
-                  <SendList />
+                  <DashboardLayout>
+                    <Routes>
+                      <Route index element={<Dashboard />} />
+                      <Route path="send-text" element={<SendText />} />
+                      <Route path="send-media-url" element={<SendMediaUrl />} />
+                      <Route path="send-media-file" element={<SendMediaFile />} />
+                      <Route path="send-location" element={<SendLocation />} />
+                      <Route path="send-list" element={<SendList />} />
+                    </Routes>
+                  </DashboardLayout>
                 </ProtectedRoute>
               }
             />
