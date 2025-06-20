@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import { Loader2, Send } from "lucide-react";
+import { Loader2, Send, Home, MessageCircle, Users, Bell, Settings, Search } from "lucide-react";
 
 const Dashboard = () => {
   const [numbers, setNumbers] = useState("");
@@ -17,7 +16,6 @@ const Dashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const abortController = useRef<AbortController | null>(null);
 
-  // Função para enviar mensagens sequencialmente com delay
   const sendMessages = async () => {
     setError(null);
     const nums = numbers
@@ -73,7 +71,6 @@ const Dashboard = () => {
 
         setProgress((prev) => ({ ...prev, sent: prev.sent + 1 }));
 
-        // Espera o delay antes de enviar a próxima mensagem
         if (i < nums.length - 1) {
           await new Promise((res) => setTimeout(res, delay * 1000));
         }
@@ -106,68 +103,23 @@ const Dashboard = () => {
         </div>
         <nav className="flex flex-col gap-4 text-sm font-medium">
           <button className="flex items-center gap-3 px-4 py-2 rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6" />
-            </svg>
+            <Home className="h-5 w-5" />
             Dashboard
           </button>
           <button className="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16h6" />
-            </svg>
+            <MessageCircle className="h-5 w-5" />
             Mensagens
           </button>
           <button className="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-            </svg>
+            <Users className="h-5 w-5" />
             Contatos
           </button>
           <button className="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
+            <Bell className="h-5 w-5" />
             Notificações
           </button>
           <button className="flex items-center gap-3 px-4 py-2 rounded-md hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
-            </svg>
+            <Settings className="h-5 w-5" />
             Configurações
           </button>
         </nav>
@@ -185,31 +137,13 @@ const Dashboard = () => {
               aria-label="Buscar"
               className="p-2 rounded-md hover:bg-sidebar-accent transition-colors"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-muted-foreground"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <Search className="h-6 w-6 text-muted-foreground" />
             </button>
             <button
               aria-label="Notificações"
               className="p-2 rounded-md hover:bg-sidebar-accent transition-colors relative"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-muted-foreground"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
+              <Bell className="h-6 w-6 text-muted-foreground" />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-green-500 ring-2 ring-black" />
             </button>
           </div>
@@ -238,16 +172,7 @@ const Dashboard = () => {
         <section className="bg-sidebar p-6 rounded-lg shadow-md max-w-3xl">
           <div className="flex items-center mb-4 gap-4">
             <div className="p-3 rounded-lg bg-blue-700 text-blue-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M7 8h10M7 12h4m1 8l-5-5H4a2 2 0 01-2-2V6a2 2 0 012-2h16a2 2 0 012 2v8a2 2 0 01-2 2h-3l-5 5z" />
-              </svg>
+              <Send className="h-6 w-6" />
             </div>
             <h3 className="text-lg font-semibold">Disparo por Texto</h3>
           </div>
@@ -258,7 +183,6 @@ const Dashboard = () => {
           <form
             onSubmit={async (e) => {
               e.preventDefault();
-              // Reutilizar a função sendMessages do componente
               sendMessages();
             }}
             className="flex flex-col gap-4"
