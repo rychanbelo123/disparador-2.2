@@ -1,11 +1,20 @@
 import express from "express";
 import Stripe from "stripe";
 import cors from "cors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 
-// Substitua pela sua chave secreta do Stripe (começa com sk_live_ ou sk_test_)
-const stripe = new Stripe("sk_test_YOUR_SECRET_KEY", {
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+
+if (!stripeSecretKey) {
+  console.error("STRIPE_SECRET_KEY is not set in environment variables");
+  process.exit(1);
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: "2022-11-15",
 });
 

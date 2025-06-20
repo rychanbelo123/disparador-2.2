@@ -27,6 +27,8 @@ const CARD_ELEMENT_OPTIONS = {
   hidePostalCode: true,
 };
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3000";
+
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -46,7 +48,7 @@ const CheckoutForm = () => {
     if (!card) return;
 
     try {
-      const response = await fetch("/api/create-payment-intent", {
+      const response = await fetch(`${BACKEND_URL}/api/create-payment-intent`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: 1000 }),
