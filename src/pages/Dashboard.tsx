@@ -10,11 +10,7 @@ const Dashboard = () => {
   const { data: hasActiveSubscription, isLoading, isError } = useSubscriptionStatus(user);
 
   if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-sidebar-background text-sidebar-foreground">
-        <p className="text-lg">Verificando assinatura...</p>
-      </div>
-    );
+    return null;
   }
 
   if (isError || !hasActiveSubscription) {

@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import subscriptionRouter from "./routes/subscription";
-import asaasRouter from "./routes/asaas";
 
 dotenv.config();
 
@@ -13,7 +12,6 @@ app.use(express.json());
 
 // Rotas existentes
 app.use("/api", subscriptionRouter);
-app.use("/api", asaasRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
