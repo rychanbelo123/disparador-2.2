@@ -17,6 +17,7 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 // Utility function
 const cn = (...classes: (string | undefined | null | boolean)[]): string => {
@@ -34,7 +35,7 @@ interface ActionCardProps {
 
 const ActionCard: React.FC<ActionCardProps> = ({ icon, title, description, onClick, delay = 0 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const cardRef = React.useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -204,42 +205,49 @@ const Sidebar: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, o
 // Main dashboard component
 const WhatsAppSenderDashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
   const actionCards = [
     {
       icon: <MessageSquare size={32} />,
       title: "Send Text",
       description: "Send text messages to your contacts with advanced formatting and emoji support.",
+      path: "/dashboard/send-text",
     },
     {
       icon: <Image size={32} />,
       title: "Send Image",
       description: "Share images with your contacts including photos, graphics, and visual content.",
+      path: "/dashboard/send-media-url",
     },
     {
       icon: <Video size={32} />,
       title: "Send Video",
       description: "Send video files to your contacts with support for various formats and sizes.",
+      path: "/dashboard/send-media-file",
     },
     {
       icon: <FileText size={32} />,
       title: "Send Document",
       description: "Share documents, PDFs, and files with your contacts securely and efficiently.",
+      path: "/dashboard/send-media-file",
     },
     {
       icon: <List size={32} />,
       title: "Send List",
       description: "Create and send interactive lists with multiple options for better engagement.",
+      path: "/dashboard/send-list",
     },
     {
       icon: <MousePointer size={32} />,
       title: "Send Buttons",
       description: "Send messages with interactive buttons for enhanced user interaction and responses.",
+      path: "/dashboard/send-buttons", // Assuming this page exists or will be created
     },
   ];
 
-  const handleCardClick = (title: string) => {
-    console.log(`Clicked on ${title}`);
+  const handleCardClick = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -326,7 +334,7 @@ const WhatsAppSenderDashboard: React.FC = () => {
                   icon={card.icon}
                   title={card.title}
                   description={card.description}
-                  onClick={() => handleCardClick(card.title)}
+                  onClick={() => handleCardClick(card.path)}
                   delay={index * 0.1}
                 />
               ))}
