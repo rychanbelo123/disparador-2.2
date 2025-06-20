@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import BottomMenu from "@/components/BottomMenu";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";

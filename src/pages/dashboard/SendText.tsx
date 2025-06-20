@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Sidebar from "@/components/Sidebar";
+import BottomMenu from "@/components/BottomMenu";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -15,8 +15,6 @@ const SendText = () => {
   const [number, setNumber] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const { user, logout } = React.useContext(require("@/contexts/AuthContext").AuthContext);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,14 +68,8 @@ const SendText = () => {
     }
   };
 
-  if (!user) {
-    return null;
-  }
-
   return (
     <div className="flex h-screen bg-gradient-to-tr from-black via-gray-900 to-black text-white">
-      <Sidebar user={user} onLogout={logout} />
-
       <main className="flex-1 p-10 overflow-auto">
         <h1 className="text-4xl font-extrabold mb-8 select-none drop-shadow-lg">Enviar Mensagem de Texto</h1>
         <form
@@ -121,6 +113,7 @@ const SendText = () => {
           </Button>
         </form>
       </main>
+      <BottomMenu />
     </div>
   );
 };
