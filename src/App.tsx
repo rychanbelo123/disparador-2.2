@@ -43,8 +43,6 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            {/* Outras rotas de disparo podem ser adicionadas aqui */}
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
