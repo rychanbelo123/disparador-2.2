@@ -81,11 +81,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#121828] to-[#1e293b] px-4">
-      <div className="w-full max-w-md bg-[#111827] rounded-xl p-8 shadow-lg border border-gray-700">
+    <div className="min-h-screen flex items-center justify-center bg-[#0F1729] px-4">
+      <div className="w-full max-w-md bg-[#0F172A] rounded-xl p-8 shadow-lg border border-[#172554]">
         <button
           type="button"
-          className="text-gray-400 hover:text-gray-200 mb-6 text-sm flex items-center gap-1"
+          className="text-[#CBD5E1] hover:text-[#DBEAFE] mb-6 text-sm flex items-center gap-1"
           onClick={() => window.history.back()}
           aria-label="Voltar"
         >
@@ -93,17 +93,17 @@ const Login = () => {
         </button>
 
         <div className="flex flex-col items-center mb-8">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-pink-600 flex items-center justify-center mb-4 shadow-lg">
-            <div className="w-8 h-8 bg-purple-300 rounded-full opacity-80" />
+          <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#172554] to-[#0F172A] flex items-center justify-center mb-4 shadow-lg">
+            <div className="w-8 h-8 bg-[#CBD5E1] rounded-full opacity-80" />
           </div>
-          <h1 className="text-white text-2xl font-bold mb-1 select-none">
+          <h1 className="text-[#CBD5E1] text-2xl font-bold mb-1 select-none">
             Yoo, bem-vindo de volta!
           </h1>
-          <p className="text-gray-400 text-sm select-none">
+          <p className="text-[#CBD5E1] text-sm select-none">
             Primeiro acesso?{" "}
             <button
               type="button"
-              className="text-indigo-400 hover:text-indigo-600 underline"
+              className="text-[#DBEAFE] hover:text-[#CBD5E1] underline"
               onClick={() => {
                 /* Aqui você pode implementar a troca para registro */
               }}
@@ -115,28 +115,28 @@ const Login = () => {
 
         <form onSubmit={handleLoginSubmit} className="space-y-6">
           <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#CBD5E1]" />
             <Input
               id="email"
               type="email"
               placeholder="Seu email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-12 bg-transparent border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-600 focus:border-transparent transition"
+              className="pl-12 bg-[#020617] border border-[#172554] rounded-lg text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-2 focus:ring-[#172554] focus:border-transparent transition"
               required
               autoComplete="email"
             />
           </div>
 
           <div className="relative">
-            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-[#CBD5E1]" />
             <Input
               id="senha"
               type="password"
               placeholder="Senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
-              className="pl-12 bg-transparent border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-600 focus:border-transparent transition"
+              className="pl-12 bg-[#020617] border border-[#172554] rounded-lg text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-2 focus:ring-[#172554] focus:border-transparent transition"
               required
               autoComplete="current-password"
             />
@@ -144,16 +144,16 @@ const Login = () => {
 
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 via-pink-500 to-pink-600 hover:from-purple-700 hover:via-pink-600 hover:to-pink-700 shadow-lg rounded-full font-semibold text-white transition-transform active:scale-95 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-[#172554] via-[#0F172A] to-[#172554] hover:from-[#0F172A] hover:via-[#172554] hover:to-[#0F172A] shadow-lg rounded-full font-semibold text-[#CBD5E1] transition-transform active:scale-95 flex items-center justify-center gap-2"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : null}
+            {loading ? <Loader2 className="animate-spin h-5 w-5 text-[#CBD5E1]" /> : null}
             Entrar
           </Button>
 
           <Button
             type="button"
-            className="w-full bg-green-900 hover:bg-green-800 shadow-lg rounded-full font-semibold text-white transition-transform active:scale-95"
+            className="w-full bg-[#172554] hover:bg-[#0F172A] shadow-lg rounded-full font-semibold text-[#CBD5E1] transition-transform active:scale-95"
             onClick={() => {
               /* Aqui você pode implementar a ação de criar conta */
             }}
@@ -162,13 +162,13 @@ const Login = () => {
           </Button>
         </form>
 
-        <p className="mt-6 text-xs text-gray-400 select-none text-center">
+        <p className="mt-6 text-xs text-[#CBD5E1] select-none text-center">
           Você reconhece que leu e concorda com nossos{" "}
-          <a href="#" className="underline hover:text-gray-300">
+          <a href="#" className="underline hover:text-[#DBEAFE]">
             Termos de Serviço
           </a>{" "}
           e{" "}
-          <a href="#" className="underline hover:text-gray-300">
+          <a href="#" className="underline hover:text-[#DBEAFE]">
             Política de Privacidade
           </a>
           .
