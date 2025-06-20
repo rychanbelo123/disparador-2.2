@@ -5,7 +5,26 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 
-const stripePromise = loadStripe("pk_live_51Mm28LH7naMM49lDL1q9ykcEFwpRmkG608IXvKXauT4o3q7KZvwNyPHcVpvuAOODI2lOj1zeX0G6W36c7Et9wiXh00CXz9Kp34");
+const stripePromise = loadStripe("pk_live_51Mm28LH7naMM49lDL1qykcEFwpRmkG608IXvKXauT4o3q7KZvwNyPHcVpvuAOODI2lOj1zeX0G6W36c7Et9wiXh00CXz9Kp34");
+
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      fontSize: "16px",
+      color: "#000",
+      "::placeholder": {
+        color: "#a0aec0",
+      },
+      padding: "12px 14px",
+      height: "48px",
+      boxSizing: "border-box",
+    },
+    invalid: {
+      color: "#e53e3e",
+    },
+  },
+  hidePostalCode: true,
+};
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -26,11 +45,10 @@ const CheckoutForm = () => {
     if (!card) return;
 
     try {
-      // Chamar backend para criar PaymentIntent e obter clientSecret
       const response = await fetch("/api/create-payment-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 1000 }), // valor em centavos (ex: R$10,00)
+        body: JSON.stringify({ amount: 1000 }),
       });
 
       const data = await response.json();
@@ -61,7 +79,9 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 bg-white rounded-md shadow-md">
-      <CardElement className="p-4 border rounded-md" />
+      <div className="border rounded-md p-2">
+        <CardElement options={CARD_ELEMENT_OPTIONS} />
+      </div>
       {error && <p className="text-red-600">{error}</p>}
       {success && <p className="text-green-600">Pagamento realizado com sucesso!</p>}
       <Button type="submit" disabled={!stripe || loading}>
