@@ -2,8 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
+
 async function fetchSubscriptionStatus(email: string) {
-  const response = await fetch("/api/check-subscription-asaas", {
+  const response = await fetch(`${BACKEND_URL}/api/check-subscription-asaas`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
