@@ -2,37 +2,37 @@
 
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   FileText,
   Image,
   MapPin,
   List,
-  LogOut,
   BarChart2,
 } from "lucide-react";
+import BottomMenu from "@/components/BottomMenu";
 
 const stats = [
   {
     title: "Mensagens Enviadas",
     value: "1,234",
-    icon: <BarChart2 size={24} className="text-green-400" />,
+    icon: <BarChart2 size={24} className="text-[#DBEAFE]" />,
   },
   {
     title: "Mídias Enviadas",
     value: "567",
-    icon: <Image size={24} className="text-green-400" />,
+    icon: <Image size={24} className="text-[#DBEAFE]" />,
   },
   {
     title: "Localizações Enviadas",
     value: "89",
-    icon: <MapPin size={24} className="text-green-400" />,
+    icon: <MapPin size={24} className="text-[#DBEAFE]" />,
   },
   {
     title: "Listas Enviadas",
     value: "45",
-    icon: <List size={24} className="text-green-400" />,
+    icon: <List size={24} className="text-[#DBEAFE]" />,
   },
 ];
 
@@ -65,89 +65,19 @@ const shortcuts = [
 ];
 
 const Dashboard = () => {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
 
   if (!user) {
     return null;
   }
 
   return (
-    <div className="flex h-screen bg-[#0a0f14] text-white font-sans">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#0b111a] flex flex-col p-6 border-r border-[#1a202c]">
-        <div
-          className="mb-10 flex items-center gap-3 cursor-pointer"
-          onClick={() => navigate("/dashboard")}
-        >
-          <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white font-bold select-none">
-            {user.charAt(0).toUpperCase()}
-          </div>
-          <div>
-            <p className="font-semibold">{user}</p>
-            <p className="text-xs text-green-400 select-text">@{user.toLowerCase()}</p>
-          </div>
-        </div>
-
-        <nav className="flex-1">
-          <p className="text-xs uppercase text-gray-500 mb-4 tracking-wider">Menu</p>
-          <ul className="space-y-2">
-            <li>
-              <button
-                onClick={() => navigate("/dashboard")}
-                className={`flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === "/dashboard"
-                    ? "bg-green-700 text-green-400 relative"
-                    : "text-gray-300 hover:bg-green-900 hover:text-green-400"
-                }`}
-              >
-                <LayoutDashboard size={20} />
-                Dashboard
-                {location.pathname === "/dashboard" && (
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-green-400 rounded-full" />
-                )}
-              </button>
-            </li>
-            {shortcuts.map(({ name, icon, path }) => {
-              const isActive = location.pathname === path;
-              return (
-                <li key={name}>
-                  <button
-                    onClick={() => navigate(path)}
-                    className={`flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-green-700 text-green-400 relative"
-                        : "text-gray-300 hover:bg-green-900 hover:text-green-400"
-                    }`}
-                  >
-                    {icon}
-                    {name}
-                    {isActive && (
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 w-2 h-2 bg-green-400 rounded-full" />
-                    )}
-                  </button>
-                </li>
-              );
-            })}
-            <li>
-              <button
-                onClick={logout}
-                className="flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:bg-red-700 hover:text-red-400"
-              >
-                <LogOut size={20} />
-                Sair
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-8 overflow-auto">
+    <div className="flex flex-col min-h-screen bg-[#0F1729] text-[#CBD5E1] font-sans pb-16">
+      <main className="flex-1 p-6 overflow-auto">
         <header className="mb-6">
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-gray-400">Visão geral das suas atividades e estatísticas</p>
+          <h1 className="text-3xl font-bold text-[#DBEAFE]">Dashboard</h1>
+          <p className="text-[#CBD5E1]">Visão geral das suas atividades e estatísticas</p>
         </header>
 
         {/* Estatísticas */}
@@ -155,12 +85,12 @@ const Dashboard = () => {
           {stats.map(({ title, value, icon }) => (
             <div
               key={title}
-              className="bg-[#12171d] rounded-xl p-6 shadow-md flex items-center gap-4 cursor-default"
+              className="bg-[#0F172A] rounded-xl p-6 shadow-md flex items-center gap-4 cursor-default border border-[#172554]"
             >
-              <div className="p-3 bg-green-700 rounded-lg">{icon}</div>
+              <div className="p-3 bg-[#172554] rounded-lg">{icon}</div>
               <div>
-                <p className="text-sm text-gray-400">{title}</p>
-                <p className="text-2xl font-semibold">{value}</p>
+                <p className="text-sm text-[#CBD5E1]">{title}</p>
+                <p className="text-2xl font-semibold text-[#DBEAFE]">{value}</p>
               </div>
             </div>
           ))}
@@ -168,21 +98,22 @@ const Dashboard = () => {
 
         {/* Atalhos */}
         <section>
-          <h2 className="text-xl font-semibold mb-4">Atalhos Rápidos</h2>
+          <h2 className="text-xl font-semibold mb-4 text-[#DBEAFE]">Atalhos Rápidos</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {shortcuts.map(({ name, icon, path }) => (
               <button
                 key={name}
                 onClick={() => navigate(path)}
-                className="flex flex-col items-center justify-center gap-2 p-6 bg-[#12171d] rounded-xl shadow-md hover:bg-green-700 transition-colors"
+                className="flex flex-col items-center justify-center gap-2 p-6 bg-[#0F172A] rounded-xl shadow-md hover:bg-[#172554] transition-colors border border-[#172554]"
               >
-                <div className="p-3 bg-green-600 rounded-lg text-white">{icon}</div>
-                <span className="text-white font-medium">{name}</span>
+                <div className="p-3 bg-[#172554] rounded-lg text-[#DBEAFE]">{icon}</div>
+                <span className="text-[#CBD5E1] font-medium">{name}</span>
               </button>
             ))}
           </div>
         </section>
       </main>
+      <BottomMenu />
     </div>
   );
 };

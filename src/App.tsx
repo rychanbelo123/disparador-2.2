@@ -7,6 +7,10 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
 import SendText from "./pages/dashboard/SendText";
+import SendMediaUrl from "./pages/dashboard/SendMediaUrl";
+import SendMediaFile from "./pages/dashboard/SendMediaFile";
+import SendLocation from "./pages/dashboard/SendLocation";
+import SendList from "./pages/dashboard/SendList";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -34,6 +38,38 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <SendText />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/send-media-url"
+              element={
+                <ProtectedRoute>
+                  <SendMediaUrl />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/send-media-file"
+              element={
+                <ProtectedRoute>
+                  <SendMediaFile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/send-location"
+              element={
+                <ProtectedRoute>
+                  <SendLocation />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/send-list"
+              element={
+                <ProtectedRoute>
+                  <SendList />
                 </ProtectedRoute>
               }
             />
