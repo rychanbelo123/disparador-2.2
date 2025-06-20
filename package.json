@@ -76,6 +76,10 @@
   "scripts": {
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "vite",
-    "dev:backend": "ts-node backend/server.ts"
+    "dev:backend": "ts-node backend/server.ts",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start:backend": "node dist/backend/server.js",
+    "build:backend": "tsc -p backend/tsconfig.json"
   }
 }
