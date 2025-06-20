@@ -20,17 +20,15 @@ async function fetchSubscriptionStatus(email: string) {
 }
 
 export function useSubscriptionStatus(email: string | null) {
-  return useQuery(
-    ["subscriptionStatus", email],
-    () => {
+  return useQuery({
+    queryKey: ["subscriptionStatus", email],
+    queryFn: () => {
       if (!email) {
         return Promise.resolve(false);
       }
       return fetchSubscriptionStatus(email);
     },
-    {
-      enabled: !!email,
-      staleTime: 5 * 60 * 1000, // 5 minutes cache
-    }
-  );
+    enabled: !!email,
+    staleTime: 5 * 60 * 1000, // 5 minutes cache
+  });
 }
