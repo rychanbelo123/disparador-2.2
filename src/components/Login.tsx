@@ -5,9 +5,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Lock, Loader2, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { toast } = useToast();
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -56,7 +60,8 @@ const Login = () => {
           description: `Bem-vindo, ${email}!`,
           variant: "default",
         });
-        // Aqui pode redirecionar ou atualizar estado
+        login(email);
+        navigate("/dashboard");
       } else {
         toast({
           title: "Falha no login",
