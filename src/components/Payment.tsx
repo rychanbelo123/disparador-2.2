@@ -5,7 +5,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "@/components/ui/button";
 
-const stripePromise = loadStripe("SUA_CHAVE_PUBLICA_STRIPE");
+const stripePromise = loadStripe("pk_live_51Mm28LH7naMM49lDL1q9ykcEFwpRmkG608IXvKXauT4o3q7KZvwNyPHcVpvuAOODI2lOj1zeX0G6W36c7Et9wiXh00CXz9Kp34");
 
 const CheckoutForm = () => {
   const stripe = useStripe();
