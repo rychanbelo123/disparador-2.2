@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Lock, Loader2 } from "lucide-react";
+import { Mail, Lock, Loader2, Smile } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -76,23 +76,38 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0f14]">
-      <div className="w-full max-w-md bg-[#12171d] rounded-xl p-8 shadow-lg border border-[#1a202c]">
-        <h1 className="text-3xl font-bold text-white mb-6 select-none">Welcome Back</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#0a0f14] via-[#12171d] to-[#0a0f14] relative overflow-hidden">
+      {/* Background decorative circles */}
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-green-600 rounded-full opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-pink-600 rounded-full opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
+
+      <div className="relative w-full max-w-md bg-black/60 backdrop-blur-lg rounded-2xl p-10 shadow-xl border border-green-700">
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-green-400 to-green-600 flex items-center justify-center mb-4 shadow-lg">
+            <Smile size={32} className="text-white" />
+          </div>
+          <h1 className="text-4xl font-extrabold text-white mb-2 select-none">
+            Bem-vindo de volta!
+          </h1>
+          <p className="text-green-300 text-sm select-none">
+            Faça login para continuar e aproveitar nossos recursos.
+          </p>
+        </div>
+
         <form onSubmit={handleLoginSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-gray-400 mb-2">
+            <label htmlFor="email" className="block text-green-300 mb-2 font-semibold">
               Email
             </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-green-400" />
               <Input
                 id="email"
                 type="email"
                 placeholder="Seu email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-10 bg-[#0f141a] text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+                className="pl-10 bg-black/40 text-white placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-lg transition"
                 required
                 autoComplete="email"
               />
@@ -100,18 +115,18 @@ const Login = () => {
           </div>
 
           <div>
-            <label htmlFor="senha" className="block text-gray-400 mb-2">
+            <label htmlFor="senha" className="block text-green-300 mb-2 font-semibold">
               Senha
             </label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-green-400" />
               <Input
                 id="senha"
                 type="password"
                 placeholder="Senha"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
-                className="pl-10 bg-[#0f141a] text-white placeholder-gray-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+                className="pl-10 bg-black/40 text-white placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-lg transition"
                 required
                 autoComplete="current-password"
               />
@@ -120,10 +135,10 @@ const Login = () => {
 
           <Button
             type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white rounded-md shadow-md"
+            className="w-full bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 shadow-lg rounded-lg font-semibold text-white transition-transform active:scale-95 flex items-center justify-center gap-2"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin mr-2 h-5 w-5" /> : null}
+            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <Smile className="h-5 w-5" />}
             Entrar
           </Button>
         </form>
