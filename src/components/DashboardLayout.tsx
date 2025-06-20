@@ -18,6 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -25,15 +26,17 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
-  const sidebarItems = [
-    { icon: <Home size={20} />, label: "Dashboard", path: "/dashboard", active: true },
-    { icon: <MessageSquare size={20} />, label: "Messages", path: "/dashboard/send-text" },
-    { icon: <User size={20} />, label: "Contacts", path: "/dashboard/send-list" },
-    { icon: <Bell size={20} />, label: "Notifications", path: "/dashboard/send-media-url" },
-    { icon: <Settings size={20} />, label: "Settings", path: "/dashboard/send-media-file" },
-  ];
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Navigation handled outside, so buttons here just visual for now
+  const sidebarItems = [
+    { icon: <Home size={20} />, label: "Dashboard", path: "/dashboard" },
+    { icon: <MessageSquare size={20} />, label: "Enviar Texto", path: "/dashboard/send-text" },
+    { icon: <Image size={20} />, label: "Enviar Mídia URL", path: "/dashboard/send-media-url" },
+    { icon: <FileText size={20} />, label: "Enviar Mídia Arquivo", path: "/dashboard/send-media-file" },
+    { icon: <User size={20} />, label: "Enviar Lista", path: "/dashboard/send-list" },
+    { icon: <Bell size={20} />, label: "Enviar Localização", path: "/dashboard/send-location" },
+  ];
 
   return (
     <AnimatePresence>
@@ -76,22 +79,28 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
               {/* Navigation */}
               <nav className="space-y-2">
-                {sidebarItems.map((item, index) => (
-                  <button
-                    key={item.label}
-                    className={cn(
-                      "w-full flex items-center px-4 py-3 rounded-xl text-left transition-all duration-200",
-                      item.active
-                        ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
-                        : "text-white/60 hover:text-white hover:bg-white/[0.05]"
-                    )}
-                    // Navigation can be added here if needed
-                    type="button"
-                  >
-                    {item.icon}
-                    <span className="ml-3 font-medium">{item.label}</span>
-                  </button>
-                ))}
+                {sidebarItems.map(({ icon, label, path }, index) => {
+                  const isActive = location.pathname === path;
+                  return (
+                    <button
+                      key={label}
+                      onClick={() => {
+                        navigate(path);
+                        onClose();
+                      }}
+                      className={cn(
+                        "w-full flex items-center px-4 py-3 rounded-xl text-left transition-all duration-200",
+                        isActive
+                          ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/30"
+                          : "text-white/60 hover:text-white hover:bg-white/[0.05]"
+                      )}
+                      type="button"
+                    >
+                      {icon}
+                      <span className="ml-3 font-medium">{label}</span>
+                    </button>
+                  );
+                })}
               </nav>
             </div>
           </motion.div>
@@ -145,10 +154,16 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             </p>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white/60 hover:text-white transition-colors" aria-label="Search">
+            <button
+              className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white/60 hover:text-white transition-colors"
+              aria-label="Search"
+            >
               <Search size={20} />
             </button>
-            <button className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white/60 hover:text-white transition-colors" aria-label="Notifications">
+            <button
+              className="p-2 rounded-lg bg-white/[0.05] border border-white/[0.08] text-white/60 hover:text-white transition-colors"
+              aria-label="Notifications"
+            >
               <Bell size={20} />
             </button>
           </div>
