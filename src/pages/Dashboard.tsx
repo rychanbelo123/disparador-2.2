@@ -3,7 +3,7 @@
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Sidebar from "@/components/Sidebar";
-import { BarChart2, MessageCircle, Image, MapPin, List } from "lucide-react";
+import { BarChart2, MessageCircle, Image, MapPin, List, FileText } from "lucide-react";
 
 const stats = [
   {
