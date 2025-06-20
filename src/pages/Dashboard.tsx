@@ -2,262 +2,110 @@
 
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-  BarChart2,
-  MessageCircle,
-  Image,
-  MapPin,
-  List,
-  FileText,
-  LogOut,
-  User,
-  Settings,
-  LayoutDashboard,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Sidebar from "@/components/Sidebar";
+import { BarChart2, MessageCircle, Image, MapPin, List } from "lucide-react";
 
 const stats = [
   {
     title: "Mensagens Enviadas",
     value: "1,234",
-    change: "+12.5%",
-    changePositive: true,
-    icon: <MessageCircle className="w-5 h-5 text-green-400" />,
+    icon: <MessageCircle className="w-6 h-6 text-green-400" />,
   },
   {
     title: "Mídias Enviadas",
     value: "567",
-    change: "+8.3%",
-    changePositive: true,
-    icon: <Image className="w-5 h-5 text-green-400" />,
+    icon: <Image className="w-6 h-6 text-pink-400" />,
   },
   {
     title: "Localizações Enviadas",
     value: "89",
-    change: "-2.1%",
-    changePositive: false,
-    icon: <MapPin className="w-5 h-5 text-red-500" />,
+    icon: <MapPin className="w-6 h-6 text-blue-400" />,
   },
   {
     title: "Listas Enviadas",
     value: "45",
-    change: "+5.1%",
-    changePositive: true,
-    icon: <List className="w-5 h-5 text-green-400" />,
-  },
-];
-
-const menuItems = [
-  {
-    name: "Dashboard",
-    icon: <LayoutDashboard className="w-5 h-5" />,
-    path: "/dashboard",
-  },
-  {
-    name: "Enviar Texto",
-    icon: <FileText className="w-5 h-5" />,
-    path: "/dashboard/send-text",
-  },
-  {
-    name: "Enviar Mídia URL",
-    icon: <Image className="w-5 h-5" />,
-    path: "/dashboard/send-media-url",
-  },
-  {
-    name: "Enviar Mídia Arquivo",
-    icon: <FileText className="w-5 h-5" />,
-    path: "/dashboard/send-media-file",
-  },
-  {
-    name: "Enviar Localização",
-    icon: <MapPin className="w-5 h-5" />,
-    path: "/dashboard/send-location",
-  },
-  {
-    name: "Enviar Lista",
-    icon: <List className="w-5 h-5" />,
-    path: "/dashboard/send-list",
+    icon: <List className="w-6 h-6 text-yellow-400" />,
   },
 ];
 
 const Dashboard = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   if (!user) {
-    return null; // ProtectedRoute cuida disso
+    return null;
   }
 
   return (
-    <div className="flex h-screen bg-[#0a0f14] text-white font-sans">
-      {/* Sidebar */}
-      <aside className="w-64 bg-[#0f141b] flex flex-col p-6 border-r border-[#1a202c]">
-        <div className="mb-10 flex items-center gap-3 cursor-pointer" onClick={() => navigate("/dashboard")}>
-          <div className="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center text-white font-bold select-none">
-            {user.charAt(0).toUpperCase()}
-          </div>
-          <div>
-            <p className="font-semibold">{user}</p>
-            <p className="text-xs text-green-400 select-text">@{user.toLowerCase()}</p>
-          </div>
-        </div>
+    <div className="flex h-screen bg-gradient-to-tr from-black via-gray-900 to-black text-white">
+      <Sidebar user={user} onLogout={logout} />
 
-        <nav className="flex-1">
-          <p className="text-xs uppercase text-gray-500 mb-4 tracking-wider">Menu</p>
-          <ul className="space-y-2">
-            {menuItems.map(({ name, icon, path }) => {
-              const isActive = location.pathname === path;
-              return (
-                <li key={name}>
-                  <button
-                    onClick={() => navigate(path)}
-                    className={`flex items-center gap-3 w-full px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-green-700 text-green-400"
-                        : "text-gray-300 hover:bg-green-900 hover:text-green-400"
-                    }`}
-                  >
-                    {icon}
-                    {name}
-                    {isActive && <span className="ml-auto w-2 h-2 bg-green-400 rounded-full" />}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        <div className="mt-auto pt-6 border-t border-[#1a202c]">
-          <button
-            onClick={logout}
-            className="flex items-center gap-2 text-gray-300 hover:text-red-500 transition-colors text-sm font-semibold"
-          >
-            <LogOut className="w-5 h-5" />
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-8 overflow-auto">
-        <header className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold select-none">Welcome to Dashboard!</h1>
-          <div className="flex items-center gap-4">
-            <input
-              type="search"
-              placeholder="Search..."
-              className="bg-[#1a202c] rounded-md px-4 py-2 text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-            <Button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow-md">
-              + Deposit
-            </Button>
-          </div>
+      <main className="flex-1 p-10 overflow-auto">
+        <header className="flex justify-between items-center mb-10">
+          <h1 className="text-4xl font-extrabold tracking-wide select-none drop-shadow-lg">
+            Dashboard
+          </h1>
+          <input
+            type="search"
+            placeholder="Buscar..."
+            className="bg-black/40 rounded-lg px-4 py-2 text-green-400 placeholder-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+          />
         </header>
 
-        {/* Stats cards */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-          {stats.map(({ title, value, change, changePositive, icon }) => (
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+          {stats.map(({ title, value, icon }) => (
             <div
               key={title}
-              className="bg-[#1a202c] rounded-xl p-6 shadow-md flex items-center justify-between cursor-default"
+              className="bg-black/40 backdrop-blur-md rounded-xl p-6 shadow-lg flex items-center gap-4 cursor-default hover:shadow-green-600/50 transition-shadow"
             >
-              <div>
-                <p className="text-xs text-gray-400">{title}</p>
-                <p className="text-2xl font-semibold">{value}</p>
-                <p
-                  className={`text-sm mt-1 ${
-                    changePositive ? "text-green-400" : "text-red-500"
-                  } flex items-center gap-1 select-none`}
-                >
-                  {changePositive ? (
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M10 3l5 7H5l5-7z" />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M10 17l-5-7h10l-5 7z" />
-                    </svg>
-                  )}
-                  {change}
-                </p>
+              <div className="p-3 bg-green-700 bg-opacity-30 rounded-lg">
+                {icon}
               </div>
-              <div className="bg-green-700 p-3 rounded-md">{icon}</div>
+              <div>
+                <p className="text-sm text-green-300">{title}</p>
+                <p className="text-3xl font-bold">{value}</p>
+              </div>
             </div>
           ))}
         </section>
 
-        {/* Placeholder for chart and recent activity */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-[#1a202c] rounded-xl p-6 shadow-md min-h-[300px]">
-            <h2 className="text-lg font-semibold mb-4">Portfolio Performance</h2>
-            <div className="flex items-center justify-center h-full text-gray-500 select-none">
-              Chart visualization would go here
-            </div>
-          </div>
-          <div className="bg-[#1a202c] rounded-xl p-6 shadow-md min-h-[300px] md:col-span-2">
-            <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
-            <ul className="space-y-4">
-              <li className="flex justify-between items-center bg-[#12171d] p-4 rounded-md shadow-inner">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white">
-                    <BarChart2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Bought AAPL</p>
-                    <p className="text-xs text-gray-400">2 hours ago</p>
-                  </div>
-                </div>
-                <p className="font-semibold">$500</p>
-              </li>
-              <li className="flex justify-between items-center bg-[#12171d] p-4 rounded-md shadow-inner">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-red-700 rounded-full flex items-center justify-center text-white">
-                    <BarChart2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Sold TSLA</p>
-                    <p className="text-xs text-gray-400">4 hours ago</p>
-                  </div>
-                </div>
-                <p className="font-semibold">$1,200</p>
-              </li>
-              <li className="flex justify-between items-center bg-[#12171d] p-4 rounded-md shadow-inner">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white">
-                    <BarChart2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Dividend received</p>
-                    <p className="text-xs text-gray-400">1 day ago</p>
-                  </div>
-                </div>
-                <p className="font-semibold">$45.67</p>
-              </li>
-              <li className="flex justify-between items-center bg-[#12171d] p-4 rounded-md shadow-inner">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white">
-                    <BarChart2 className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-semibold">Bought ETH</p>
-                    <p className="text-xs text-gray-400">2 days ago</p>
-                  </div>
-                </div>
-                <p className="font-semibold">$800</p>
-              </li>
-            </ul>
+        <section className="bg-black/30 backdrop-blur-md rounded-xl p-8 shadow-lg">
+          <h2 className="text-2xl font-semibold mb-6 select-none">Atalhos Rápidos</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-6">
+            <button
+              onClick={() => window.location.assign("/dashboard/send-text")}
+              className="bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 rounded-lg p-6 flex flex-col items-center justify-center gap-3 shadow-lg transition-transform hover:scale-105"
+            >
+              <MessageCircle size={32} />
+              <span className="text-lg font-semibold">Enviar Texto</span>
+            </button>
+            <button
+              onClick={() => window.location.assign("/dashboard/send-media-url")}
+              className="bg-gradient-to-r from-pink-600 to-pink-400 hover:from-pink-700 hover:to-pink-500 rounded-lg p-6 flex flex-col items-center justify-center gap-3 shadow-lg transition-transform hover:scale-105"
+            >
+              <Image size={32} />
+              <span className="text-lg font-semibold">Enviar Mídia URL</span>
+            </button>
+            <button
+              onClick={() => window.location.assign("/dashboard/send-media-file")}
+              className="bg-gradient-to-r from-purple-600 to-purple-400 hover:from-purple-700 hover:to-purple-500 rounded-lg p-6 flex flex-col items-center justify-center gap-3 shadow-lg transition-transform hover:scale-105"
+            >
+              <FileText size={32} />
+              <span className="text-lg font-semibold">Enviar Mídia Arquivo</span>
+            </button>
+            <button
+              onClick={() => window.location.assign("/dashboard/send-location")}
+              className="bg-gradient-to-r from-blue-600 to-blue-400 hover:from-blue-700 hover:to-blue-500 rounded-lg p-6 flex flex-col items-center justify-center gap-3 shadow-lg transition-transform hover:scale-105"
+            >
+              <MapPin size={32} />
+              <span className="text-lg font-semibold">Enviar Localização</span>
+            </button>
+            <button
+              onClick={() => window.location.assign("/dashboard/send-list")}
+              className="bg-gradient-to-r from-yellow-600 to-yellow-400 hover:from-yellow-700 hover:to-yellow-500 rounded-lg p-6 flex flex-col items-center justify-center gap-3 shadow-lg transition-transform hover:scale-105"
+            >
+              <List size={32} />
+              <span className="text-lg font-semibold">Enviar Lista</span>
+            </button>
           </div>
         </section>
       </main>

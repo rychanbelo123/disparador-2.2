@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Sidebar from "@/components/Sidebar";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -14,6 +15,8 @@ const SendText = () => {
   const [number, setNumber] = useState("");
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { user, logout } = React.useContext(require("@/contexts/AuthContext").AuthContext);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,42 +70,57 @@ const SendText = () => {
     }
   };
 
+  if (!user) {
+    return null;
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900 p-8 text-white flex flex-col max-w-lg mx-auto">
-      <h1 className="text-3xl font-bold mb-8 select-none">Enviar Mensagem de Texto</h1>
-      <form onSubmit={handleSend} className="space-y-6 bg-gray-800 bg-opacity-40 backdrop-blur-md rounded-xl p-6 shadow-lg border border-gray-700">
-        <div>
-          <Label htmlFor="number" className="text-gray-300">Número (ex: 5511999999999)</Label>
-          <Input
-            id="number"
-            type="text"
-            placeholder="Número do destinatário"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
-            className="bg-gray-900 text-white"
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="text" className="text-gray-300">Texto</Label>
-          <Input
-            id="text"
-            type="text"
-            placeholder="Mensagem de texto"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="bg-gray-900 text-white"
-            required
-          />
-        </div>
-        <Button
-          type="submit"
-          className="w-full bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:from-indigo-600 hover:via-purple-700 hover:to-pink-600 shadow-lg"
-          disabled={loading}
+    <div className="flex h-screen bg-gradient-to-tr from-black via-gray-900 to-black text-white">
+      <Sidebar user={user} onLogout={logout} />
+
+      <main className="flex-1 p-10 overflow-auto">
+        <h1 className="text-4xl font-extrabold mb-8 select-none drop-shadow-lg">Enviar Mensagem de Texto</h1>
+        <form
+          onSubmit={handleSend}
+          className="max-w-lg bg-black/40 backdrop-blur-md rounded-xl p-8 shadow-lg border border-green-700"
         >
-          {loading ? "Enviando..." : "Enviar"}
-        </Button>
-      </form>
+          <div className="mb-6">
+            <Label htmlFor="number" className="text-green-300">
+              Número (ex: 5511999999999)
+            </Label>
+            <Input
+              id="number"
+              type="text"
+              placeholder="Número do destinatário"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+              className="bg-black/70 text-green-200 placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <Label htmlFor="text" className="text-green-300">
+              Texto
+            </Label>
+            <Input
+              id="text"
+              type="text"
+              placeholder="Mensagem de texto"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="bg-black/70 text-green-200 placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-md"
+              required
+            />
+          </div>
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 shadow-lg"
+            disabled={loading}
+          >
+            {loading ? "Enviando..." : "Enviar"}
+          </Button>
+        </form>
+      </main>
     </div>
   );
 };
