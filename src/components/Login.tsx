@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Lock, Loader2, Smile } from "lucide-react";
+import { Mail, Lock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
@@ -81,72 +81,98 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#0a0f14] via-[#12171d] to-[#0a0f14] relative overflow-hidden">
-      {/* Background decorative circles */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-green-600 rounded-full opacity-20 blur-3xl animate-blob animation-delay-2000"></div>
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-pink-600 rounded-full opacity-20 blur-3xl animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#121828] to-[#1e293b] px-4">
+      <div className="w-full max-w-md bg-[#111827] rounded-xl p-8 shadow-lg border border-gray-700">
+        <button
+          type="button"
+          className="text-gray-400 hover:text-gray-200 mb-6 text-sm flex items-center gap-1"
+          onClick={() => window.history.back()}
+          aria-label="Voltar"
+        >
+          ← Voltar
+        </button>
 
-      <div className="relative w-full max-w-md bg-black/60 backdrop-blur-lg rounded-2xl p-10 shadow-xl border border-green-700">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-green-400 to-green-600 flex items-center justify-center mb-4 shadow-lg">
-            <Smile size={32} className="text-white" />
+          <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-pink-600 flex items-center justify-center mb-4 shadow-lg">
+            <div className="w-8 h-8 bg-purple-300 rounded-full opacity-80" />
           </div>
-          <h1 className="text-4xl font-extrabold text-white mb-2 select-none">
-            Bem-vindo de volta!
+          <h1 className="text-white text-2xl font-bold mb-1 select-none">
+            Yoo, bem-vindo de volta!
           </h1>
-          <p className="text-green-300 text-sm select-none">
-            Faça login para continuar e aproveitar nossos recursos.
+          <p className="text-gray-400 text-sm select-none">
+            Primeiro acesso?{" "}
+            <button
+              type="button"
+              className="text-indigo-400 hover:text-indigo-600 underline"
+              onClick={() => {
+                /* Aqui você pode implementar a troca para registro */
+              }}
+            >
+              Crie uma conta
+            </button>
           </p>
         </div>
 
         <form onSubmit={handleLoginSubmit} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-green-300 mb-2 font-semibold">
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-green-400" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="Seu email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10 bg-black/40 text-white placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-lg transition"
-                required
-                autoComplete="email"
-              />
-            </div>
+          <div className="relative">
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="Seu email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="pl-12 bg-transparent border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-600 focus:border-transparent transition"
+              required
+              autoComplete="email"
+            />
           </div>
 
-          <div>
-            <label htmlFor="senha" className="block text-green-300 mb-2 font-semibold">
-              Senha
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-green-400" />
-              <Input
-                id="senha"
-                type="password"
-                placeholder="Senha"
-                value={senha}
-                onChange={(e) => setSenha(e.target.value)}
-                className="pl-10 bg-black/40 text-white placeholder-green-500 focus:ring-green-500 focus:border-green-500 rounded-lg transition"
-                required
-                autoComplete="current-password"
-              />
-            </div>
+          <div className="relative">
+            <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Input
+              id="senha"
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className="pl-12 bg-transparent border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-600 focus:border-transparent transition"
+              required
+              autoComplete="current-password"
+            />
           </div>
 
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-green-600 to-green-400 hover:from-green-700 hover:to-green-500 shadow-lg rounded-lg font-semibold text-white transition-transform active:scale-95 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-purple-600 via-pink-500 to-pink-600 hover:from-purple-700 hover:via-pink-600 hover:to-pink-700 shadow-lg rounded-full font-semibold text-white transition-transform active:scale-95 flex items-center justify-center gap-2"
             disabled={loading}
           >
-            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <Smile className="h-5 w-5" />}
+            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : null}
             Entrar
           </Button>
+
+          <Button
+            type="button"
+            className="w-full bg-green-900 hover:bg-green-800 shadow-lg rounded-full font-semibold text-white transition-transform active:scale-95"
+            onClick={() => {
+              /* Aqui você pode implementar a ação de criar conta */
+            }}
+          >
+            Criar Conta
+          </Button>
         </form>
+
+        <p className="mt-6 text-xs text-gray-400 select-none text-center">
+          Você reconhece que leu e concorda com nossos{" "}
+          <a href="#" className="underline hover:text-gray-300">
+            Termos de Serviço
+          </a>{" "}
+          e{" "}
+          <a href="#" className="underline hover:text-gray-300">
+            Política de Privacidade
+          </a>
+          .
+        </p>
       </div>
     </div>
   );
