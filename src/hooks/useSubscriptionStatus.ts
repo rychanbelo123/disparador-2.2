@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 async function fetchSubscriptionStatus(email: string) {
-  const response = await fetch("/api/check-subscription", {
+  const response = await fetch("/api/check-subscription-asaas", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
