@@ -1,7 +1,7 @@
-import AuthForm from "@/components/AuthForm";
+import Login from "@/components/Login";
 
 const Index = () => {
-  return <AuthForm />;
+  return <Login />;
 };
 
 export default Index;
