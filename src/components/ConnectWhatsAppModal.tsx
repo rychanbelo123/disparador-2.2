@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 
 interface ConnectWhatsAppModalProps {
   open: boolean;
@@ -27,9 +27,9 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
   const [loading, setLoading] = useState(false);
   const [connectionOpen, setConnectionOpen] = useState(false);
   const [qrBase64, setQrBase64] = useState<string | null>(null);
-  const [countdown, setCountdown] = useState(POLL_INTERVAL / 1000);
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
+  const progressControls = useAnimation();
 
   const BACKEND_URL = "https://aplicativos-n8n.wip173.easypanel.host/webhook/dispradorlogin";
 
@@ -39,11 +39,20 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
       setLoading(false);
       setConnectionOpen(false);
       setQrBase64(null);
-      setCountdown(POLL_INTERVAL / 1000);
       if (countdownRef.current) clearInterval(countdownRef.current);
       if (pollRef.current) clearTimeout(pollRef.current);
+      progressControls.stop();
     }
-  }, [open]);
+  }, [open, progressControls]);
+
+  // Function to start the progress bar animation
+  const startProgressAnimation = () => {
+    progressControls.set({ width: "100%" });
+    progressControls.start({
+      width: "0%",
+      transition: { duration: POLL_INTERVAL / 1000, ease: "linear" },
+    });
+  };
 
   const fetchConnectionStatus = async () => {
     if (!instancename.trim()) {
@@ -90,6 +99,7 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
         setLoading(false);
         if (countdownRef.current) clearInterval(countdownRef.current);
         if (pollRef.current) clearTimeout(pollRef.current);
+        progressControls.stop();
         return;
       }
 
@@ -103,19 +113,15 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
         setConnectionOpen(false);
         setQrBase64(data[0].data.base64);
         setLoading(false);
-        setCountdown(POLL_INTERVAL / 1000);
 
+        // Start progress bar animation
+        startProgressAnimation();
+
+        // Clear previous timers if any
         if (countdownRef.current) clearInterval(countdownRef.current);
-        countdownRef.current = setInterval(() => {
-          setCountdown((prev) => {
-            if (prev <= 1) {
-              return POLL_INTERVAL / 1000;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-
         if (pollRef.current) clearTimeout(pollRef.current);
+
+        // Set timer to poll again after POLL_INTERVAL
         pollRef.current = setTimeout(() => {
           fetchConnectionStatus();
         }, POLL_INTERVAL);
@@ -126,6 +132,7 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
           variant: "destructive",
         });
         setLoading(false);
+        progressControls.stop();
       }
     } catch (error) {
       toast({
@@ -134,8 +141,17 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
         variant: "destructive",
       });
       setLoading(false);
+      progressControls.stop();
     }
   };
+
+  // Automatically start fetching connection status when modal opens and instancename is set
+  useEffect(() => {
+    if (open && instancename.trim()) {
+      fetchConnectionStatus();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, instancename]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -183,25 +199,15 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
                   />
                 </div>
 
-                {/* Contador animado abaixo do QR code */}
-                <motion.div
-                  className="flex items-center space-x-2 text-[#4ADE80] font-mono text-lg select-none"
-                  key={countdown}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <motion.span
-                    className="font-bold"
-                    initial={{ scale: 1 }}
-                    animate={{ scale: [1, 1.5, 1] }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    {countdown}
-                  </motion.span>
-                  <span>segundo{countdown !== 1 ? "s" : ""} para atualizar</span>
-                </motion.div>
+                {/* Barra de progresso animada abaixo do QR code */}
+                <div className="w-56 h-2 bg-[#3A3750] rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-[#4ADE80]"
+                    initial={{ width: "100%" }}
+                    animate={progressControls}
+                    transition={{ ease: "linear" }}
+                  />
+                </div>
 
                 <p className="text-[#6B6883] text-center max-w-xs select-none">
                   Escaneie o QR code com seu WhatsApp para conectar a instância.
