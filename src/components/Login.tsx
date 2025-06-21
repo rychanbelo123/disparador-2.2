@@ -361,7 +361,6 @@ const Login = () => {
                     >
                       <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center space-x-2">
                         <Smartphone className="text-white/60" size={18} />
-                        <span className="text-white/60 text-sm">Email</span>
                       </div>
 
                       <Input
@@ -371,7 +370,7 @@ const Login = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         onFocus={() => setFocusedInput("email")}
                         onBlur={() => setFocusedInput(null)}
-                        className="pl-16"
+                        className="pl-12"
                         required
                         autoComplete="email"
                       />
