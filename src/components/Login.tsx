@@ -381,9 +381,8 @@ const Login = () => {
                       whileFocus={{ scale: 1.02 }}
                       transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     >
-                      <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center space-x-2">
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center">
                         <Lock className="text-white/60" size={18} />
-                        <span className="text-white/60 text-sm">Senha</span>
                       </div>
 
                       <Input
@@ -393,7 +392,7 @@ const Login = () => {
                         onChange={(e) => setSenha(e.target.value)}
                         onFocus={() => setFocusedInput("senha")}
                         onBlur={() => setFocusedInput(null)}
-                        className="pl-16 pr-12"
+                        className="pl-12 pr-12"
                         required
                         autoComplete="current-password"
                       />
