@@ -91,9 +91,11 @@ const Dashboard = () => {
       {/* Blocos de atalho modernos */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {quickActions.map(({ label, icon, path }) => (
-          <button
+          <motion.button
             key={label}
             onClick={() => navigate(path)}
+            whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="flex items-center gap-4 p-6 rounded-2xl shadow-lg text-white transition"
             style={{ backgroundColor: "#0B0D12" }}
           >
@@ -101,7 +103,7 @@ const Dashboard = () => {
               {icon}
             </div>
             <span className="font-semibold text-lg">{label}</span>
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>
