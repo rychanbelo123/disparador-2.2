@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
-import { MessageCircle, Smartphone, Lock, ArrowRight, QrCode, Eye, EyeOff } from "lucide-react";
+import { MessageCircle, Smartphone, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ function Input({ className, type, ...props }: InputProps) {
   return (
     <input
       type={type}
-      className={`flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 backdrop-blur-sm ${className}`}
+      className={`flex h-12 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all duration-300 ${className}`}
       {...props}
     />
   );
@@ -375,17 +375,6 @@ const Login = () => {
                         required
                         autoComplete="email"
                       />
-
-                      {focusedInput === "email" && (
-                        <motion.div
-                          layoutId="input-highlight"
-                          className="absolute inset-0 bg-green-500/10 rounded-xl -z-10"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      )}
                     </motion.div>
 
                     <motion.div
@@ -418,17 +407,6 @@ const Login = () => {
                       >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                       </button>
-
-                      {focusedInput === "senha" && (
-                        <motion.div
-                          layoutId="input-highlight"
-                          className="absolute inset-0 bg-green-500/10 rounded-xl -z-10"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      )}
                     </motion.div>
 
                     <motion.button
@@ -481,17 +459,6 @@ const Login = () => {
                         maxLength={6}
                         required
                       />
-
-                      {focusedInput === "code" && (
-                        <motion.div
-                          layoutId="input-highlight"
-                          className="absolute inset-0 bg-green-500/10 rounded-xl -z-10"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        />
-                      )}
                     </motion.div>
 
                     <div className="text-center">
@@ -538,20 +505,15 @@ const Login = () => {
                 <div className="flex-grow border-t border-white/10"></div>
               </div>
 
-              {/* QR Code option */}
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="button"
-                className="w-full relative group/qr"
+              {/* Solicitar Conta button */}
+              <a
+                href="https://wa.me/5577999399711"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full block text-center bg-green-600 hover:bg-green-700 text-white font-medium h-12 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2"
               >
-                <div className="relative overflow-hidden bg-white/5 hover:bg-white/10 text-white font-medium h-12 rounded-xl border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-3">
-                  <QrCode className="w-5 h-5 text-white/80 group-hover/qr:text-white transition-colors duration-300" />
-                  <span className="text-white/80 group-hover/qr:text-white transition-colors text-sm">
-                    Login with QR Code
-                  </span>
-                </div>
-              </motion.button>
+                Solicitar Conta
+              </a>
 
               {/* Footer */}
               <motion.p
