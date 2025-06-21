@@ -394,7 +394,7 @@ const Login = () => {
                         onChange={(e) => setSenha(e.target.value)}
                         onFocus={() => setFocusedInput("senha")}
                         onBlur={() => setFocusedInput(null)}
-                        className="pl-16"
+                        className="pl-16 pr-12"
                         required
                         autoComplete="current-password"
                       />
