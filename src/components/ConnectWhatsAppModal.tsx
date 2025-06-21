@@ -173,7 +173,7 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.85 }}
-                className="flex flex-col items-center space-y-3 mt-4"
+                className="flex flex-col items-center space-y-4 mt-4"
               >
                 <div className="relative rounded-lg overflow-hidden border-4 border-[#3A3750] shadow-md shadow-[#3A3750]">
                   <img
@@ -181,29 +181,30 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
                     alt="QR Code para conexão WhatsApp"
                     className="w-56 h-56 object-contain bg-[#0D0916]"
                   />
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 bg-[#1E1B2B] text-[#6B6883] text-center py-2 font-mono tracking-widest text-lg select-none"
-                    key={countdown}
-                    initial={{ y: 10, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -10, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <span>Este código expira em </span>
-                    <motion.span
-                      key={countdown}
-                      initial={{ scale: 1 }}
-                      animate={{ scale: [1, 1.3, 1] }}
-                      transition={{ duration: 0.6 }}
-                      className="text-[#4ADE80] font-semibold"
-                    >
-                      {countdown}
-                    </motion.span>
-                    <span> segundo{countdown !== 1 ? "s" : ""}</span>
-                  </motion.div>
                 </div>
+
+                {/* Contador animado abaixo do QR code */}
+                <motion.div
+                  className="flex items-center space-x-2 text-[#4ADE80] font-mono text-lg select-none"
+                  key={countdown}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.span
+                    className="font-bold"
+                    initial={{ scale: 1 }}
+                    animate={{ scale: [1, 1.5, 1] }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    {countdown}
+                  </motion.span>
+                  <span>segundo{countdown !== 1 ? "s" : ""} para atualizar</span>
+                </motion.div>
+
                 <p className="text-[#6B6883] text-center max-w-xs select-none">
-                  Já escaneei o código
+                  Escaneie o QR code com seu WhatsApp para conectar a instância.
                 </p>
               </motion.div>
             )}
