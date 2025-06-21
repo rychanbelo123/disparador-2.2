@@ -27,6 +27,7 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
   const [loading, setLoading] = useState(false);
   const [connectionOpen, setConnectionOpen] = useState(false);
   const [qrBase64, setQrBase64] = useState<string | null>(null);
+  const [autoCheckStarted, setAutoCheckStarted] = useState(false);
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
   const progressControls = useAnimation();
@@ -39,6 +40,7 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
       setLoading(false);
       setConnectionOpen(false);
       setQrBase64(null);
+      setAutoCheckStarted(false);
       if (countdownRef.current) clearInterval(countdownRef.current);
       if (pollRef.current) clearTimeout(pollRef.current);
       progressControls.stop();
@@ -125,6 +127,11 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
         pollRef.current = setTimeout(() => {
           fetchConnectionStatus();
         }, POLL_INTERVAL);
+
+        // Mark that auto check started after QR code generation
+        if (!autoCheckStarted) {
+          setAutoCheckStarted(true);
+        }
       } else {
         toast({
           title: "Erro",
@@ -145,13 +152,15 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
     }
   };
 
-  // Automatically start fetching connection status when modal opens and instancename is set
+  // Only start auto polling after QR code is generated (autoCheckStarted = true)
   useEffect(() => {
-    if (open && instancename.trim()) {
+    if (open && instancename.trim() && autoCheckStarted) {
+      // Already polling via setTimeout in fetchConnectionStatus, so no need to call here repeatedly
+      // But if you want to trigger immediately on instancename change after QR code generated:
       fetchConnectionStatus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, instancename]);
+  }, [open, instancename, autoCheckStarted]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -176,7 +185,16 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
           <Input
             placeholder="Nome da instância"
             value={instancename}
-            onChange={(e) => setInstancename(e.target.value)}
+            onChange={(e) => {
+              setInstancename(e.target.value);
+              // Reset autoCheckStarted to false to prevent premature polling
+              setAutoCheckStarted(false);
+              setQrBase64(null);
+              setConnectionOpen(false);
+              progressControls.stop();
+              if (countdownRef.current) clearInterval(countdownRef.current);
+              if (pollRef.current) clearTimeout(pollRef.current);
+            }}
             disabled={loading || connectionOpen}
             required
             className="bg-[#1E1B2B] border border-[#3A3750] text-white placeholder-[#6B6883] focus:ring-[#6B6883] focus:border-[#6B6883]"
