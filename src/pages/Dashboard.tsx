@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
+import ConnectWhatsAppModal from "@/components/ConnectWhatsAppModal";
 
 const quickActions = [
   { label: "Importar Contatos", icon: <List size={20} />, path: "/dashboard" },
@@ -27,6 +28,8 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  const [modalOpen, setModalOpen] = useState(false);
+
   const handleLogout = () => {
     logout();
     navigate("/");
@@ -34,23 +37,42 @@ const Dashboard = () => {
 
   return (
     <div>
-      <header className="flex justify-between items-center mb-6">
+      <header className="flex justify-between items-center mb-6 flex-wrap gap-4">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-bold text-white select-none drop-shadow-lg"
+          className="text-3xl font-bold text-white select-none drop-shadow-lg flex-grow"
         >
           Bem-vindo ao Painel
         </motion.h1>
-        <Button
-          variant="destructive"
-          onClick={handleLogout}
-          className="flex items-center gap-2"
-        >
-          <LogOut size={18} />
-          Sair
-        </Button>
+
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Placeholder para pesquisa */}
+          <input
+            type="search"
+            placeholder="Pesquisar..."
+            className="px-3 py-2 rounded-md border border-white/20 bg-black/30 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent"
+          />
+
+          <Button
+            onClick={() => setModalOpen(true)}
+            className="bg-cyan-600 hover:bg-cyan-700"
+          >
+            Conectar WhatsApp
+          </Button>
+
+          <Button
+            variant="destructive"
+            onClick={handleLogout}
+            className="flex items-center gap-2"
+          >
+            <LogOut size={18} />
+            Sair
+          </Button>
+        </div>
       </header>
+
+      <ConnectWhatsAppModal open={modalOpen} onOpenChange={setModalOpen} />
 
       <p className="text-gray-300 mb-8">
         Aqui você pode gerenciar suas campanhas de automação do WhatsApp.
@@ -96,12 +118,16 @@ const Dashboard = () => {
           ].map((action, index) => (
             <motion.button
               key={action}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.9 + index * 0.1 }}
-              className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 text-cyan-400 hover:from-cyan-500/30 hover:to-blue-500/30 transition-all duration-200 text-sm font-medium"
+              onClick={() => navigate("/dashboard")}
+              whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="flex items-center gap-4 p-6 rounded-2xl shadow-lg text-white transition"
+              style={{ backgroundColor: "#0B0D12" }}
             >
-              {action}
+              <div className="p-3 rounded-lg" style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
+                <MessageSquare size={20} />
+              </div>
+              <span className="font-semibold text-lg">{action}</span>
             </motion.button>
           ))}
         </div>
