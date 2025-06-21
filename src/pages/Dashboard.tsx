@@ -2,8 +2,27 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import {
+  MessageSquare,
+  Image,
+  FileText,
+  List,
+  MapPin,
+} from "lucide-react";
+
+const quickActions = [
+  { label: "Importar Contatos", icon: <List size={20} />, path: "/dashboard" },
+  { label: "Agendar Mensagem", icon: <MessageSquare size={20} />, path: "/dashboard/send-text" },
+  { label: "Enviar Mídia URL", icon: <Image size={20} />, path: "/dashboard/send-media-url" },
+  { label: "Enviar Mídia Arquivo", icon: <FileText size={20} />, path: "/dashboard/send-media-file" },
+  { label: "Enviar Localização", icon: <MapPin size={20} />, path: "/dashboard/send-location" },
+  { label: "Enviar Lista", icon: <List size={20} />, path: "/dashboard/send-list" },
+];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <motion.h1
@@ -11,19 +30,19 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold text-white mb-6 select-none drop-shadow-lg"
       >
-        Bem-vindo ao Dashboard
+        Bem-vindo ao Painel
       </motion.h1>
 
       <p className="text-gray-300 mb-8">
-        Aqui você pode gerenciar suas campanhas de automação WhatsApp.
+        Aqui você pode gerenciar suas campanhas de automação do WhatsApp.
       </p>
 
-      {/* Stats cards */}
+      {/* Cards de estatísticas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {[
-          { label: "Messages Sent", value: "12,847", change: "+12%" },
-          { label: "Active Contacts", value: "3,429", change: "+8%" },
-          { label: "Success Rate", value: "98.2%", change: "+2%" },
+          { label: "Mensagens Enviadas", value: "12.847", change: "+12%" },
+          { label: "Contatos Ativos", value: "3.429", change: "+8%" },
+          { label: "Taxa de Sucesso", value: "98,2%", change: "+2%" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
@@ -41,20 +60,20 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Quick actions */}
+      {/* Ações rápidas */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
-        className="p-6 rounded-2xl backdrop-blur-xl bg-white/[0.02] border border-white/[0.08]"
+        className="p-6 rounded-2xl backdrop-blur-xl bg-white/[0.02] border border-white/[0.08] mb-8"
       >
-        <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">Ações Rápidas</h3>
         <div className="flex flex-wrap gap-3">
           {[
-            "Import Contacts",
-            "Schedule Message",
-            "View Analytics",
-            "Export Data",
+            "Importar Contatos",
+            "Agendar Mensagem",
+            "Ver Análises",
+            "Exportar Dados",
           ].map((action, index) => (
             <motion.button
               key={action}
@@ -68,6 +87,20 @@ const Dashboard = () => {
           ))}
         </div>
       </motion.div>
+
+      {/* Blocos de atalho modernos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {quickActions.map(({ label, icon, path }) => (
+          <button
+            key={label}
+            onClick={() => navigate(path)}
+            className="flex items-center gap-4 p-6 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl shadow-lg text-white hover:from-cyan-700 hover:to-blue-700 transition"
+          >
+            <div className="p-3 bg-white/20 rounded-lg">{icon}</div>
+            <span className="font-semibold text-lg">{label}</span>
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
