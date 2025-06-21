@@ -36,6 +36,7 @@ const SendList = () => {
       ],
     },
   ]);
+  const [delay, setDelay] = useState("0");
   const [loading, setLoading] = useState(false);
 
   const handleSectionChange = (index: number, field: keyof Section, value: string) => {
@@ -137,6 +138,16 @@ const SendList = () => {
       }
     }
 
+    const delaySeconds = Number(delay);
+    if (isNaN(delaySeconds) || delaySeconds < 0) {
+      toast({
+        title: "Erro",
+        description: "Delay deve ser um número positivo ou zero.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -155,6 +166,7 @@ const SendList = () => {
             buttonText,
             footerText,
             sections,
+            delay: delaySeconds,
           }),
         }
       );
@@ -176,6 +188,7 @@ const SendList = () => {
       setButtonText("");
       setFooterText("");
       setSections([{ title: "", rows: [{ title: "", description: "", rowId: "" }] }]);
+      setDelay("0");
     } catch (error) {
       toast({
         title: "Erro",
@@ -188,12 +201,12 @@ const SendList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-10">
-      <h1 className="text-3xl font-bold mb-8 select-none drop-shadow-lg">Enviar Lista</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-10 flex justify-center">
       <form
         onSubmit={handleSend}
-        className="max-w-4xl bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 mx-auto space-y-6"
+        className="w-full max-w-4xl bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 space-y-6"
       >
+        <h1 className="text-3xl font-bold mb-8 select-none drop-shadow-lg text-center">Enviar Lista</h1>
         <div>
           <Label htmlFor="number" className="text-[#CBD5E1]">
             Número (ex: 5511999999999)
@@ -363,6 +376,23 @@ const SendList = () => {
           <Button type="button" onClick={addSection}>
             Adicionar Seção
           </Button>
+        </div>
+
+        <div>
+          <Label htmlFor="delay" className="text-[#CBD5E1]">
+            Delay entre mensagens (segundos)
+          </Label>
+          <Input
+            id="delay"
+            type="number"
+            min={0}
+            step={1}
+            placeholder="0"
+            value={delay}
+            onChange={(e) => setDelay(e.target.value)}
+            className="bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md border border-[#172554]"
+            required
+          />
         </div>
 
         <Button

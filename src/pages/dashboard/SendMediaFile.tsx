@@ -9,8 +9,9 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 const SendMediaFile = () => {
   const { toast } = useToast();
 
-  const [number, setNumber] = useState("");
+  const [numbers, setNumbers] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [delay, setDelay] = useState("0");
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,10 +23,35 @@ const SendMediaFile = () => {
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!number || !file) {
+    if (!numbers.trim() || !file) {
       toast({
         title: "Erro",
-        description: "Número e arquivo são obrigatórios.",
+        description: "Números e arquivo são obrigatórios.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const delaySeconds = Number(delay);
+    if (isNaN(delaySeconds) || delaySeconds < 0) {
+      toast({
+        title: "Erro",
+        description: "Delay deve ser um número positivo ou zero.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Process numbers: split by comma, trim spaces, filter empty
+    const numberList = numbers
+      .split(",")
+      .map((num) => num.trim())
+      .filter((num) => num.length > 0);
+
+    if (numberList.length === 0) {
+      toast({
+        title: "Erro",
+        description: "Por favor, insira pelo menos um número válido.",
         variant: "destructive",
       });
       return;
@@ -35,8 +61,9 @@ const SendMediaFile = () => {
 
     try {
       const formData = new FormData();
-      formData.append("number", number);
+      formData.append("numbers", JSON.stringify(numberList));
       formData.append("file", file);
+      formData.append("delay", delaySeconds.toString());
 
       const response = await fetch(
         `${BACKEND_URL}/message/sendMediaFile/instance-id-placeholder`,
@@ -56,8 +83,9 @@ const SendMediaFile = () => {
         variant: "default",
       });
 
-      setNumber("");
+      setNumbers("");
       setFile(null);
+      setDelay("0");
       (document.getElementById("fileInput") as HTMLInputElement).value = "";
     } catch (error) {
       toast({
@@ -71,24 +99,25 @@ const SendMediaFile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-10">
-      <h1 className="text-3xl font-bold mb-8 select-none drop-shadow-lg">Enviar Mídia via Arquivo</h1>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white p-10 flex justify-center">
       <form
         onSubmit={handleSend}
-        className="max-w-lg bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10 mx-auto"
+        className="w-full max-w-4xl bg-white/5 backdrop-blur-md rounded-xl p-8 shadow-lg border border-white/10"
       >
+        <h1 className="text-3xl font-bold mb-8 select-none drop-shadow-lg text-center">Enviar Mídia via Arquivo</h1>
         <div className="mb-6">
-          <label htmlFor="number" className="block mb-1 text-[#CBD5E1] font-medium">
-            Número (ex: 5511999999999)
+          <label htmlFor="numbers" className="block mb-1 text-[#CBD5E1] font-medium">
+            Números (separados por vírgula)
           </label>
           <input
-            id="number"
+            id="numbers"
             type="text"
-            placeholder="Número do destinatário"
-            value={number}
-            onChange={(e) => setNumber(e.target.value)}
+            placeholder="Ex: 5511999999999, 5511988888888"
+            value={numbers}
+            onChange={(e) => setNumbers(e.target.value)}
             className="w-full bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md border border-[#172554] px-3 py-2"
             required
+            spellCheck={false}
           />
         </div>
         <div className="mb-6">
@@ -104,9 +133,25 @@ const SendMediaFile = () => {
             required
           />
         </div>
+        <div className="mb-6">
+          <label htmlFor="delay" className="block mb-1 text-[#CBD5E1] font-medium">
+            Delay entre mensagens (segundos)
+          </label>
+          <input
+            id="delay"
+            type="number"
+            min={0}
+            step={1}
+            placeholder="0"
+            value={delay}
+            onChange={(e) => setDelay(e.target.value)}
+            className="w-full bg-black/70 text-[#CBD5E1] placeholder-[#CBD5E1] focus:ring-[#172554] focus:border-transparent rounded-md border border-[#172554] px-3 py-2"
+            required
+          />
+        </div>
         <Button
           type="submit"
-          className="w-full bg-gradient-to-r from-[#172554] via-[#0F172A] to-[#172554] hover:from-[#0F172A] hover:via-[#172554] hover:to-[#0F172A] shadow-lg rounded-full font-semibold text-[#CBD5E1]"
+          className="w-full bg-gradient-to-r from-[#172554] via-[#0F172A] to-[#172554] hover:from-[#0F172A] hover:via-[#172554] hover:to-[#172554] shadow-lg rounded-full font-semibold text-[#CBD5E1]"
           disabled={loading}
         >
           {loading ? "Enviando..." : "Enviar"}
