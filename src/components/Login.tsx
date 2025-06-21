@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
-import { MessageCircle, Smartphone, Lock, ArrowRight, QrCode } from "lucide-react";
+import { MessageCircle, Smartphone, Lock, ArrowRight, QrCode, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
