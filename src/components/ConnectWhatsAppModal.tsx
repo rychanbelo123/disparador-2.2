@@ -83,13 +83,14 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
 
       const data = await response.json();
 
+      // Ajuste para lidar com a estrutura: data[0].data é um array
+      const innerData = Array.isArray(data[0]?.data) ? data[0].data[0] : data[0]?.data;
+
       if (
-        Array.isArray(data) &&
-        data.length > 0 &&
-        data[0].data &&
-        typeof data[0].data === "object" &&
-        "connectionStatus" in data[0].data &&
-        data[0].data.connectionStatus === "open"
+        innerData &&
+        typeof innerData === "object" &&
+        "connectionStatus" in innerData &&
+        innerData.connectionStatus === "open"
       ) {
         setConnectionOpen(true);
         setQrBase64(null);
@@ -106,14 +107,12 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
       }
 
       if (
-        Array.isArray(data) &&
-        data.length > 0 &&
-        data[0].data &&
-        typeof data[0].data === "object" &&
-        "base64" in data[0].data
+        innerData &&
+        typeof innerData === "object" &&
+        "base64" in innerData
       ) {
         setConnectionOpen(false);
-        setQrBase64(data[0].data.base64);
+        setQrBase64(innerData.base64);
         setLoading(false);
 
         // Start progress bar animation
@@ -155,8 +154,6 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
   // Only start auto polling after QR code is generated (autoCheckStarted = true)
   useEffect(() => {
     if (open && instancename.trim() && autoCheckStarted) {
-      // Already polling via setTimeout in fetchConnectionStatus, so no need to call here repeatedly
-      // But if you want to trigger immediately on instancename change after QR code generated:
       fetchConnectionStatus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
