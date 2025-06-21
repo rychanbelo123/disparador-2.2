@@ -9,7 +9,10 @@ import {
   FileText,
   List,
   MapPin,
+  LogOut,
 } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const quickActions = [
   { label: "Importar Contatos", icon: <List size={20} />, path: "/dashboard" },
@@ -22,16 +25,32 @@ const quickActions = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div>
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold text-white mb-6 select-none drop-shadow-lg"
-      >
-        Bem-vindo ao Painel
-      </motion.h1>
+      <header className="flex justify-between items-center mb-6">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl font-bold text-white select-none drop-shadow-lg"
+        >
+          Bem-vindo ao Painel
+        </motion.h1>
+        <Button
+          variant="outline"
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-white border-white/30 hover:border-white/60"
+        >
+          <LogOut size={18} />
+          Sair
+        </Button>
+      </header>
 
       <p className="text-gray-300 mb-8">
         Aqui você pode gerenciar suas campanhas de automação do WhatsApp.

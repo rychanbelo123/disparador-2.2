@@ -509,6 +509,8 @@ const Login = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full block text-center bg-green-600 hover:bg-green-700 text-white font-medium h-12 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2"
+                role="button"
+                tabIndex={0}
               >
                 Solicitar Conta
               </a>
