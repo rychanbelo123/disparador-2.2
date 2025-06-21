@@ -94,9 +94,12 @@ const Dashboard = () => {
           <button
             key={label}
             onClick={() => navigate(path)}
-            className="flex items-center gap-4 p-6 bg-gradient-to-r from-sidebar-primary to-sidebar-accent rounded-2xl shadow-lg text-sidebar-primary-foreground hover:from-sidebar-primary-foreground hover:to-sidebar-accent-foreground transition"
+            className="flex items-center gap-4 p-6 rounded-2xl shadow-lg text-white transition"
+            style={{ backgroundColor: "#0B0D12" }}
           >
-            <div className="p-3 bg-sidebar-primary-foreground/10 rounded-lg">{icon}</div>
+            <div className="p-3 rounded-lg" style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
+              {icon}
+            </div>
             <span className="font-semibold text-lg">{label}</span>
           </button>
         ))}
