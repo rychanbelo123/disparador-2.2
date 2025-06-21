@@ -94,9 +94,9 @@ const Dashboard = () => {
           <button
             key={label}
             onClick={() => navigate(path)}
-            className="flex items-center gap-4 p-6 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl shadow-lg text-white hover:from-cyan-700 hover:to-blue-700 transition"
+            className="flex items-center gap-4 p-6 bg-gradient-to-r from-sidebar-primary to-sidebar-accent rounded-2xl shadow-lg text-sidebar-primary-foreground hover:from-sidebar-primary-foreground hover:to-sidebar-accent-foreground transition"
           >
-            <div className="p-3 bg-white/20 rounded-lg">{icon}</div>
+            <div className="p-3 bg-sidebar-primary-foreground/10 rounded-lg">{icon}</div>
             <span className="font-semibold text-lg">{label}</span>
           </button>
         ))}
