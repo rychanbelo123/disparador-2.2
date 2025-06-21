@@ -43,9 +43,9 @@ const Dashboard = () => {
           Bem-vindo ao Painel
         </motion.h1>
         <Button
-          variant="outline"
+          variant="destructive"
           onClick={handleLogout}
-          className="flex items-center gap-2 text-white border-white/30 hover:border-white/60"
+          className="flex items-center gap-2"
         >
           <LogOut size={18} />
           Sair
