@@ -504,13 +504,14 @@ const Login = () => {
               </div>
 
               {/* Solicitar Conta button */}
-              <button
-                type="button"
-                onClick={() => window.open("https://wa.me/5577999399711", "_blank", "noopener,noreferrer")}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium h-12 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2"
+              <a
+                href="https://wa.me/5577999399711"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-block bg-green-600 hover:bg-green-700 text-white font-medium h-12 rounded-xl transition-colors duration-300 text-center leading-[3rem] select-none"
               >
                 Solicitar Conta
-              </button>
+              </a>
 
               {/* Footer */}
               <motion.p
