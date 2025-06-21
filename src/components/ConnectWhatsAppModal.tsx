@@ -144,54 +144,66 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md rounded-2xl p-6 bg-gradient-to-tr from-[#0F172A] via-[#172554] to-[#0F172A] border border-cyan-600 shadow-lg shadow-cyan-900/50">
+      <DialogContent className="max-w-sm rounded-2xl p-8 bg-[#0D0916] border border-[#1E1B2B] shadow-lg shadow-[#1E1B2B]">
         <DialogHeader>
-          <DialogTitle className="text-white text-2xl font-semibold tracking-wide">
-            Conectar WhatsApp
+          <DialogTitle className="text-white text-xl font-semibold text-center mb-1">
+            {connectionOpen ? "WhatsApp Conectado" : "Escaneie o QR Code"}
           </DialogTitle>
-          <DialogDescription className="text-cyan-300 mt-1">
-            Informe o nome da sua instância para conectar seu WhatsApp.
+          <DialogDescription className="text-gray-400 text-center mb-6 px-4">
+            {connectionOpen
+              ? "Seu WhatsApp está conectado com sucesso."
+              : "Abra o WhatsApp no seu celular e escaneie o código para conectar."}
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             placeholder="Nome da instância"
             value={instancename}
             onChange={(e) => setInstancename(e.target.value)}
             disabled={loading || connectionOpen}
             required
-            className="bg-[#172554] border-cyan-500 text-cyan-100 placeholder-cyan-400 focus:ring-cyan-400 focus:border-cyan-400"
+            className="bg-[#1E1B2B] border border-[#3A3750] text-white placeholder-[#6B6883] focus:ring-[#6B6883] focus:border-[#6B6883]"
           />
 
           <AnimatePresence>
             {!connectionOpen && qrBase64 && (
               <motion.div
                 key="qr-container"
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
+                exit={{ opacity: 0, scale: 0.85 }}
                 className="flex flex-col items-center space-y-3 mt-4"
               >
-                <div className="relative rounded-lg overflow-hidden border-4 border-cyan-600 shadow-lg shadow-cyan-900/60">
+                <div className="relative rounded-lg overflow-hidden border-4 border-[#3A3750] shadow-md shadow-[#3A3750]">
                   <img
                     src={`data:image/png;base64,${qrBase64}`}
                     alt="QR Code para conexão WhatsApp"
-                    className="w-56 h-56 object-contain bg-black"
+                    className="w-56 h-56 object-contain bg-[#0D0916]"
                   />
                   <motion.div
-                    className="absolute bottom-0 left-0 right-0 bg-cyan-700/80 text-cyan-100 text-center py-1 font-mono tracking-widest text-lg select-none"
+                    className="absolute bottom-0 left-0 right-0 bg-[#1E1B2B] text-[#6B6883] text-center py-2 font-mono tracking-widest text-lg select-none"
                     key={countdown}
                     initial={{ y: 10, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -10, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    Atualizando em {countdown} segundo{countdown !== 1 ? "s" : ""}
+                    <span>Este código expira em </span>
+                    <motion.span
+                      key={countdown}
+                      initial={{ scale: 1 }}
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 0.6 }}
+                      className="text-[#4ADE80] font-semibold"
+                    >
+                      {countdown}
+                    </motion.span>
+                    <span> segundo{countdown !== 1 ? "s" : ""}</span>
                   </motion.div>
                 </div>
-                <p className="text-cyan-300 text-center max-w-xs">
-                  Escaneie o QR code com seu WhatsApp para conectar a instância.
+                <p className="text-[#6B6883] text-center max-w-xs select-none">
+                  Já escaneei o código
                 </p>
               </motion.div>
             )}
@@ -202,24 +214,24 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
               key="connected-message"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-green-400 font-semibold text-center text-lg mt-6"
+              className="text-[#4ADE80] font-semibold text-center text-lg mt-6 select-none"
             >
-              WhatsApp conectado com sucesso!
+              Seu WhatsApp está conectado com sucesso!
             </motion.p>
           )}
 
-          <DialogFooter className="flex flex-col gap-3 mt-4">
+          <DialogFooter className="flex flex-col gap-3 mt-6">
             <Button
               type="submit"
               disabled={loading || connectionOpen}
-              className="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold"
+              className="w-full bg-[#4ADE80] hover:bg-[#3AC162] text-[#0D0916] font-semibold"
             >
               {loading ? "Conectando..." : connectionOpen ? "Conectado" : "Conectar"}
             </Button>
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="w-full text-cyan-400 hover:text-cyan-300"
+              className="w-full text-[#6B6883] hover:text-[#A3A0B8]"
             >
               Fechar
             </Button>
