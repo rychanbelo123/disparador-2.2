@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ConnectWhatsAppModalProps {
   open: boolean;
@@ -23,6 +24,7 @@ const POLL_INTERVAL = 29000; // 29 seconds
 
 const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps) => {
   const { toast } = useToast();
+  const { connectedInstance, setConnectedInstance } = useAuth();
   const [instancename, setInstancename] = useState("");
   const [loading, setLoading] = useState(false);
   const [connectionOpen, setConnectionOpen] = useState(false);
@@ -94,12 +96,13 @@ const ConnectWhatsAppModal = ({ open, onOpenChange }: ConnectWhatsAppModalProps)
       ) {
         setConnectionOpen(true);
         setQrBase64(null);
+        setLoading(false);
+        setConnectedInstance(instancename.trim());
         toast({
           title: "Conectado",
           description: "WhatsApp já está conectado.",
           variant: "default",
         });
-        setLoading(false);
         if (countdownRef.current) clearInterval(countdownRef.current);
         if (pollRef.current) clearTimeout(pollRef.current);
         progressControls.stop();

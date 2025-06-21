@@ -10,6 +10,7 @@ import {
   List,
   MapPin,
   LogOut,
+  CheckCircle,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -26,7 +27,7 @@ const quickActions = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, connectedInstance } = useAuth();
 
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -56,9 +57,20 @@ const Dashboard = () => {
 
           <Button
             onClick={() => setModalOpen(true)}
-            className="bg-cyan-600 hover:bg-cyan-700"
+            className={`flex items-center gap-2 ${
+              connectedInstance
+                ? "bg-green-600 hover:bg-green-700"
+                : "bg-cyan-600 hover:bg-cyan-700"
+            }`}
           >
-            Conectar WhatsApp
+            {connectedInstance ? (
+              <>
+                <CheckCircle size={18} className="text-green-300" />
+                <span>Instância: {connectedInstance}</span>
+              </>
+            ) : (
+              "Conectar WhatsApp"
+            )}
           </Button>
 
           <Button

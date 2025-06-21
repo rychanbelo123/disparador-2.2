@@ -6,12 +6,15 @@ interface AuthContextType {
   user: string | null;
   login: (email: string) => void;
   logout: () => void;
+  connectedInstance: string | null;
+  setConnectedInstance: (instance: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
+  const [connectedInstance, setConnectedInstance] = useState<string | null>(null);
 
   const login = (email: string) => {
     setUser(email);
@@ -19,10 +22,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
+    setConnectedInstance(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, connectedInstance, setConnectedInstance }}>
       {children}
     </AuthContext.Provider>
   );
